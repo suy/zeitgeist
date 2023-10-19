@@ -37,12 +37,12 @@ int main(int argc, char* argv[])
       stylesheet.close();
     }
 
-    Coordinator* coordinator = new Coordinator();
+    Coordinator coordinator;
 
-    MainWindow w(coordinator);
+    MainWindow w(&coordinator);
 
-    coordinator->restoreState();
-    coordinator->initWeidu(QCoreApplication::applicationDirPath() +
+    coordinator.restoreState();
+    coordinator.initWeidu(QCoreApplication::applicationDirPath() +
                            "/" + WEIDU_EXECUTABLE);
 
     w.show();
