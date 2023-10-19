@@ -20,7 +20,6 @@
 #include "coordinator.h"
 #include "controller.h"
 #include "datamanager.h"
-#include "enqueuemodmodel.h"
 #include "weidumanager.h"
 
 #include <QFile>
