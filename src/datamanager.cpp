@@ -45,10 +45,10 @@ DataManager::DataManager(QObject* parent) :
   archiveModel(new ArchiveModel(this)),
   settings(new QSettings("zeitgeist", "zeitgeist", this)), currentGame(nullptr)
 {
-  connect(gameListModel, SIGNAL(gameRemoved(const QString&)),
-          this, SLOT(gameRemoved(const QString&)));
-  connect(gameListModel, SIGNAL(eeLangSignal(const QString&, const QString&)),
-          this, SLOT(handleEeLang(const QString&, const QString&)));
+  connect(gameListModel, &GameListModel::gameRemoved,
+          this, &DataManager::gameRemoved);
+  connect(gameListModel, &GameListModel::eeLangSignal,
+          this, &DataManager::handleEeLang);
 }
 
 void DataManager::saveState()
