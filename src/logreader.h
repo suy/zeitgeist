@@ -22,7 +22,6 @@ public:
   static WeiduLog* read(QObject* parent,
                         const QList<WeiduLogComponent>& logList);
   void readLog(const QString& path);
-  void terminateReader();
 
 signals:
   void logFile(WeiduLog* logFile);

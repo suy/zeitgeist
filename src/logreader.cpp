@@ -82,11 +82,6 @@ void LogReader::readLog(const QString& path)
   emit logFile(read(0, path));
 }
 
-void LogReader::terminateReader()
-{
-  deleteLater();
-}
-
 bool LogReader::validLine(const QString& line)
 {
   if (line.isEmpty()) {

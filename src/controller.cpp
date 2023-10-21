@@ -30,31 +30,41 @@ Controller::Controller(QObject* parent) :
   weiduManager(nullptr)
 {
   LogReader* reader = new LogReader(&weiduLog);
+//  reader->moveToThread(readerThread);
+  connect(workerThread, &QThread::finished,
+          reader, &QObject::deleteLater);
+
+  // This is a mess of signals being passed around objects, and to in the end forward
+  // a WeiduLog*, which is sort of a data type, but inheriting QObject, and
+  // sometimes but not always having a parent. It is messy enough to not be any
+  // clear if it's breaking the whole thread safety or not (but probably yes,
+  // as creating a QObject in a different thread of its parent is a big risk).
+  // In the meantime, keep this as a means to be able to test with and without
+  // the thread (for now the thread code is commented out, and the threads are
+  // not used).
   connect(this, &Controller::readLog,
           reader, &LogReader::readLog);
   connect(reader, &LogReader::logFile,
           this, &Controller::logFile);
-  connect(this, &Controller::terminateReader,
-          reader, &LogReader::terminateReader);
 
-  reader->moveToThread(readerThread);
-  readerThread->start();
+//  readerThread->start();
 }
 
 Controller::~Controller()
 {
-  weiduManager->deleteLater();
-  emit terminateReader();
+  if (weiduManager)
+      weiduManager->deleteLater(); // Deleted indirectly, in case the thread is added back.
 }
 
 void Controller::setupWeidu(const QString& weiduPath)
 {
-  weiduManager->deleteLater();
+  if (weiduManager)
+      weiduManager->deleteLater(); // Deleted indirectly, in case the thread is added back.
   currentWeidu = weiduPath;
   weiduManager = new WeiduManager(weiduPath, &weiduLog);
   if (weiduManager->executable()) {
     qDebug() << "File" << weiduPath << "is executable";
-    weiduManager->moveToThread(workerThread);
+//    weiduManager->moveToThread(workerThread);
 
     connect(weiduManager, &WeiduManager::quacks,
             this, &Controller::quacks);
@@ -76,7 +86,7 @@ void Controller::setupWeidu(const QString& weiduPath)
     connect(this, &Controller::processInput,
             weiduManager, &WeiduManager::processInput);
 
-    workerThread->start();
+//    workerThread->start();
     weiduManager->quack();
   } else {
     qDebug() << "File" << weiduPath << "is not executable";
