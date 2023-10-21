@@ -55,15 +55,11 @@ void Controller::setupWeidu(const QString& weiduPath)
   if (weiduManager->executable()) {
     qDebug() << "File" << weiduPath << "is executable";
     weiduManager->moveToThread(workerThread);
-    connect(this, SIGNAL(doesItQuack()),
-            weiduManager, SLOT(quack()));
     connect(weiduManager, SIGNAL(quacks(bool)),
             this, SLOT(quacks(bool)));
 
     connect(weiduManager, SIGNAL(versionSignal(int)),
             this, SLOT(weiduVersion(int)));
-    connect(this, SIGNAL(getVersion()),
-            weiduManager, SLOT(version()));
     connect(weiduManager, SIGNAL(languageList(const QStringList&)),
             this, SIGNAL(languageList(const QStringList&)));
     connect(this, SIGNAL(weiduListLanguages(const QString&)),
@@ -90,7 +86,7 @@ void Controller::setupWeidu(const QString& weiduPath)
             weiduManager, SLOT(processInput(const QString&)));
 
     workerThread->start();
-    emit doesItQuack();
+    weiduManager->quack();
   } else {
     qDebug() << "File" << weiduPath << "is not executable";
     delete weiduManager;
@@ -107,7 +103,7 @@ void Controller::quacks(bool quacks)
     qDebug() << "File quacks like a WeiDU";
     emit newWeiduManager(weiduManager);
     emit confirmedWeiduPath(currentWeidu);
-    emit getVersion();
+    weiduManager->version();
   } else {
     qDebug() << "File fails to quack like a WeiDU";
     weiduManager->deleteLater();

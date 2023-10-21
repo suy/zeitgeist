@@ -37,14 +37,14 @@ public:
   bool executable() const;
   void eeLang(const QString& lang);
   void newGamePath(const QString& path, bool eeGame);
+  void quack();
+  void version();
 
 private slots:
-  void quack();
   void processInput(const QString& text);
   void readProcessOutput();
 
   /* Slots to queue up tasks */
-  void version();
   void getLanguageList(const QString& tp2);
   void getComponentList(const QString& tp2, int index);
   void install(WeiduLog* modList);
