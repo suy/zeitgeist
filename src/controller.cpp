@@ -43,20 +43,18 @@ Controller::Controller(QObject* parent) :
 
 Controller::~Controller()
 {
-  emit terminateManager();
+  weiduManager->deleteLater();
   emit terminateReader();
 }
 
 void Controller::setupWeidu(const QString& weiduPath)
 {
-  emit terminateManager();
+  weiduManager->deleteLater();
   currentWeidu = weiduPath;
   weiduManager = new WeiduManager(weiduPath, &weiduLog);
   if (weiduManager->executable()) {
     qDebug() << "File" << weiduPath << "is executable";
     weiduManager->moveToThread(workerThread);
-    connect(this, SIGNAL(terminateManager()),
-            weiduManager, SLOT(terminateManager()));
     connect(this, SIGNAL(doesItQuack()),
             weiduManager, SLOT(quack()));
     connect(weiduManager, SIGNAL(quacks(bool)),
@@ -112,7 +110,7 @@ void Controller::quacks(bool quacks)
     emit getVersion();
   } else {
     qDebug() << "File fails to quack like a WeiDU";
-    emit terminateManager();
+    weiduManager->deleteLater();
     weiduManager = nullptr;
     QString tmpPath = currentWeidu;
     currentWeidu = QString();

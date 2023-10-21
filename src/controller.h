@@ -34,7 +34,6 @@ private slots:
 
 signals:
   void weiduFailedValidation(const QString& weiduPath);
-  void terminateManager();
   void terminateReader();
   void doesItQuack();
   void newWeiduManager(const WeiduManager* manager);

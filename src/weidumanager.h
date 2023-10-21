@@ -39,7 +39,6 @@ public:
   void newGamePath(const QString& path, bool eeGame);
 
 private slots:
-  void terminateManager();
   void quack();
   void processInput(const QString& text);
   void readProcessOutput();

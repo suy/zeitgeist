@@ -63,11 +63,6 @@ bool WeiduManager::executable() const
                           QFile::ExeGroup | QFile::ExeOther);
 }
 
-void WeiduManager::terminateManager()
-{
-  deleteLater();
-}
-
 void WeiduManager::quack()
 {
   QStringList arguments;
