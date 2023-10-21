@@ -62,7 +62,6 @@ signals:
   void newGamePath(const QString& gamePath, bool eeGame) const;
   void eeLang(const QString& eeLang) const;
   void storedWeiduPath(const QString& weiduPath) const;
-  void clearQueues();
   void processQueues(WeiduLog* installQueue,
                      WeiduLog* uninstallQueue,
                      WeiduLog* log);
@@ -73,6 +72,7 @@ signals:
 
 private:
   void clearModels();
+  void clearQueueModels();
   void saveGameList();
   void restoreGameList();
   void loadGame(const QString& path);

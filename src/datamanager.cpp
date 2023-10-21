@@ -47,10 +47,6 @@ DataManager::DataManager(QObject* parent) :
 {
   connect(gameListModel, SIGNAL(gameRemoved(const QString&)),
           this, SLOT(gameRemoved(const QString&)));
-  connect(this, SIGNAL(clearQueues()),
-          inQueuedModsModel, SLOT(clear()));
-  connect(this, SIGNAL(clearQueues()),
-          outQueuedModsModel, SLOT(clear()));
   connect(gameListModel, SIGNAL(eeLangSignal(const QString&, const QString&)),
           this, SLOT(handleEeLang(const QString&, const QString&)));
 }
@@ -89,6 +85,12 @@ void DataManager::clearModels()
 {
   availableModsModel->setStringList(QStringList());
   installedModsModel->clear();
+  inQueuedModsModel->clear();
+  outQueuedModsModel->clear();
+}
+
+void DataManager::clearQueueModels()
+{
   inQueuedModsModel->clear();
   outQueuedModsModel->clear();
 }
@@ -244,7 +246,7 @@ void DataManager::getQueues()
   WeiduLog* installQueue = inQueuedModsModel->queue();
   WeiduLog* uninstallQueue = outQueuedModsModel->queue();
   WeiduLog* logFile = installedModsModel->logFile();
-  emit clearQueues();
+  clearQueueModels();
   emit processQueues(installQueue, uninstallQueue, logFile);
 }
 
