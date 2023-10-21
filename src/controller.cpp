@@ -30,12 +30,12 @@ Controller::Controller(QObject* parent) :
   weiduManager(nullptr)
 {
   LogReader* reader = new LogReader(&weiduLog);
-  connect(this, SIGNAL(readLog(const QString&)),
-          reader, SLOT(readLog(const QString&)));
-  connect(reader, SIGNAL(logFile(WeiduLog*)),
-          this, SIGNAL(logFile(WeiduLog*)));
-  connect(this, SIGNAL(terminateReader()),
-          reader, SLOT(terminateReader()));
+  connect(this, &Controller::readLog,
+          reader, &LogReader::readLog);
+  connect(reader, &LogReader::logFile,
+          this, &Controller::logFile);
+  connect(this, &Controller::terminateReader,
+          reader, &LogReader::terminateReader);
 
   reader->moveToThread(readerThread);
   readerThread->start();
