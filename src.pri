@@ -2,7 +2,6 @@
 
 HEADERS += \
         src/archivemodel.h \
-        src/availablemodsmodel.h \
         src/comboboxdelegate.h \
         src/controller.h \
         src/coordinator.h \
@@ -31,7 +30,6 @@ HEADERS += \
 
 SOURCES += \
         src/archivemodel.cpp \
-        src/availablemodsmodel.cpp \
         src/comboboxdelegate.cpp \
         src/controller.cpp \
         src/coordinator.cpp \

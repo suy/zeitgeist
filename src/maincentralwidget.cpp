@@ -18,7 +18,6 @@
  */
 
 #include "maincentralwidget.h"
-#include "availablemodsmodel.h"
 #include "coordinator.h"
 #include "datamanager.h"
 #include "installedmodsmodel.h"
@@ -35,6 +34,7 @@
 #include <QItemSelectionModel>
 #include <QModelIndex>
 #include <QModelIndexList>
+#include <QStringListModel>
 #include <QList>
 #include <QDebug>
 
@@ -247,7 +247,7 @@ void MainCentralWidget::handleQueueAvailability(const QModelIndex&, int, int)
 void MainCentralWidget::getSelectedAvailableMod()
 {
   QModelIndex index = availableModsView->selectionModel()->currentIndex();
-  AvailableModsModel* model = coordinator->dataManager->availableModsModel;
+  QStringListModel* model = coordinator->dataManager->availableModsModel;
   QString tp2 = model->data(index, Qt::DisplayRole).toString();
   emit selectedAvailableMod(tp2);
 }

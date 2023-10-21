@@ -5,7 +5,6 @@
 #include <QModelIndex>
 #include <QWidget>
 
-class AvailableModsModel;
 class Coordinator;
 class InstalledModsModel;
 class WeiduLog;

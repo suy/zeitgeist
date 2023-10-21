@@ -6,7 +6,6 @@
 #include <QModelIndex>
 
 class ArchiveModel;
-class AvailableModsModel;
 class EnqueueModModel;
 class Game;
 class GameListModel;
@@ -16,6 +15,7 @@ class WeiduLog;
 
 class QSettings;
 class QString;
+class QStringListModel;
 
 class DataManager : public QObject
 {
@@ -27,7 +27,7 @@ public:
   void emitCurrentGamePath() const;
 
   GameListModel* gameListModel;
-  AvailableModsModel* availableModsModel;
+  QStringListModel* availableModsModel;
   InstalledModsModel* installedModsModel;
   QueuedModsModel* inQueuedModsModel;
   QueuedModsModel* outQueuedModsModel;
@@ -59,7 +59,6 @@ public slots:
 
 signals:
   void identityOfCurrentGame(const QString& name) const;
-  void clearModels();
   void newGamePath(const QString& gamePath, bool eeGame) const;
   void eeLang(const QString& eeLang) const;
   void storedWeiduPath(const QString& weiduPath) const;
@@ -73,6 +72,7 @@ signals:
   void importModDistArchiveSuccess(bool success);
 
 private:
+  void clearModels();
   void saveGameList();
   void restoreGameList();
   void loadGame(const QString& path);

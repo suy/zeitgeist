@@ -28,8 +28,6 @@ public slots:
   /* Returns the installed components selected by the user in the
      order they were installed */
   WeiduLog* selectedComponents(const QModelIndexList& indexList) const;
-
-private slots:
   void clear();
 
 private:

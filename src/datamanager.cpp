@@ -19,7 +19,6 @@
 
 #include "datamanager.h"
 #include "archivemodel.h"
-#include "availablemodsmodel.h"
 #include "enqueuemodmodel.h"
 #include "game.h"
 #include "gamelistmodel.h"
@@ -32,12 +31,13 @@
 #include <QSettings>
 #include <QList>
 #include <QString>
+#include <QStringListModel>
 #include <QDir>
 #include <QtDebug>
 
 DataManager::DataManager(QObject* parent) :
   QObject(parent), gameListModel(new GameListModel(this)),
-  availableModsModel(new AvailableModsModel(this)),
+  availableModsModel(new QStringListModel(this)),
   installedModsModel(new InstalledModsModel(this)),
   inQueuedModsModel(new QueuedModsModel(this)),
   outQueuedModsModel(new QueuedModsModel(this)),
@@ -47,14 +47,6 @@ DataManager::DataManager(QObject* parent) :
 {
   connect(gameListModel, SIGNAL(gameRemoved(const QString&)),
           this, SLOT(gameRemoved(const QString&)));
-  connect(this, SIGNAL(clearModels()),
-          availableModsModel, SLOT(clear()));
-  connect(this, SIGNAL(clearModels()),
-          installedModsModel, SLOT(clear()));
-  connect(this, SIGNAL(clearModels()),
-          inQueuedModsModel, SLOT(clear()));
-  connect(this, SIGNAL(clearModels()),
-          outQueuedModsModel, SLOT(clear()));
   connect(this, SIGNAL(clearQueues()),
           inQueuedModsModel, SLOT(clear()));
   connect(this, SIGNAL(clearQueues()),
@@ -91,6 +83,14 @@ void DataManager::restoreWeidu() const
     qDebug() << "Attempting to restore WeiDU path" << settingsWeidu;
     emit storedWeiduPath(settingsWeidu);
   }
+}
+
+void DataManager::clearModels()
+{
+  availableModsModel->setStringList(QStringList());
+  installedModsModel->clear();
+  inQueuedModsModel->clear();
+  outQueuedModsModel->clear();
 }
 
 void DataManager::useGame(const QString& path)
@@ -142,7 +142,7 @@ void DataManager::loadGame(const QString& path)
   currentGame = new Game(this, newPath);
 
   identifyCurrentGame();
-  availableModsModel->populate(currentGame);
+  availableModsModel->setStringList(currentGame->getModNames());
   emit getLog(WeiduLog::logPath(newPath));
   emit newGamePath(newPath, gameListModel->eeGame(newPath));
   emit eeLang(gameListModel->eeLang(newPath));
@@ -195,7 +195,7 @@ void DataManager::gameRemoved(const QString& path)
   if (currentGame && path == currentGame->path) {
     delete currentGame;
     currentGame = nullptr;
-    emit clearModels();
+    clearModels();
     emit identityOfCurrentGame(QString());
     emit gotGame(false);
   }
