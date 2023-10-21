@@ -35,6 +35,8 @@ class WeiduManager : public QObject
 public:
   WeiduManager(const QString& weiduPath, QMutex* weiduLog);
   bool executable() const;
+  void eeLang(const QString& lang);
+  void newGamePath(const QString& path, bool eeGame);
 
 private slots:
   void terminateManager();
@@ -44,8 +46,6 @@ private slots:
 
   /* Slots to queue up tasks */
   void version();
-  void newGamePath(const QString& path, bool eeGame);
-  void eeLang(const QString& lang);
   void getLanguageList(const QString& tp2);
   void getComponentList(const QString& tp2, int index);
   void install(WeiduLog* modList);

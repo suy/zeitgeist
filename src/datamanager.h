@@ -34,24 +34,26 @@ public:
   EnqueueModModel* enqueueModModel;
   ArchiveModel* archiveModel;
 
+public slots:
+  void restoreState();
+  void confirmedWeiduPath(const QString& path);
+  void componentList(const QString& tp2, int,
+                     const QJsonDocument& list) const;
+  void importModDistArchive(const QStringList& mods);
+  void logFile(WeiduLog* logFile);
+  void createModDistArchive(const QString& targetName);
+
 private slots:
   void useGame(const QString& path);
-  void restoreState();
   void saveState();
   void refreshCurrentGame();
   void gameRemoved(const QString& path);
-  void confirmedWeiduPath(const QString& path);
   void enqueueComponents(const QString& modName, int lang);
   void uninstallComponents(WeiduLog* componentList);
   void unqueueInstallComponents(const QModelIndexList& indices);
   void unqueueUninstallComponents(const QModelIndexList& indices);
   void getQueues();
-  void logFile(WeiduLog* logFile);
   void handleEeLang(const QString& path, const QString& lang) const;
-  void componentList(const QString& tp2, int,
-                     const QJsonDocument& list) const;
-  void createModDistArchive(const QString& targetName);
-  void importModDistArchive(const QStringList& mods);
 
 public slots:
   void identifyCurrentGame() const;

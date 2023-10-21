@@ -20,16 +20,17 @@ public:
   Controller(QObject* parent);
   ~Controller();
 
-private slots:
   void setupWeidu(const QString& weiduPath);
+  void processQueues(WeiduLog* install, WeiduLog* uninstall,
+                     WeiduLog* log);
+
+private slots:
   void quacks(bool quacks);
   void weiduCheck() const;
 
   void weiduVersion(int version);
   void getLanguageList(const QString& tp2);
   void getComponentList(const QString& tp2, int index);
-  void processQueues(WeiduLog* install, WeiduLog* uninstall,
-                     WeiduLog* log);
 
 signals:
   void weiduFailedValidation(const QString& weiduPath);

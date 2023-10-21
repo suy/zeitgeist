@@ -30,30 +30,28 @@ Coordinator::Coordinator(QObject* parent) :
   QObject(parent), dataManager(new DataManager(this)),
   controller(new Controller(this))
 {
-  connect(this, SIGNAL(weiduPathSignal(const QString&)),
-          controller, SLOT(setupWeidu(const QString&)));
-  connect(controller, SIGNAL(weiduFailedValidation(const QString&)),
-          this, SLOT(weiduFailedValidation(const QString&)));
-  connect(controller, SIGNAL(newWeiduManager(const WeiduManager*)),
-          this, SLOT(newWeiduManager(const WeiduManager*)));
-  connect(controller, SIGNAL(confirmedWeiduPath(const QString&)),
-          dataManager, SLOT(confirmedWeiduPath(const QString&)));
-  connect(dataManager, SIGNAL(storedWeiduPath(const QString&)),
-          this, SLOT(weiduPath(const QString&)));
-  connect(this, SIGNAL(restoreStateSignal()),
-          dataManager, SLOT(restoreState()));
-  connect(dataManager, SIGNAL(processQueues(WeiduLog*, WeiduLog*, WeiduLog*)),
-          controller, SLOT(processQueues(WeiduLog*, WeiduLog*, WeiduLog*)));
-  connect(dataManager, SIGNAL(getLog(const QString&)),
-          controller, SIGNAL(readLog(const QString&)));
-  connect(controller, SIGNAL(logFile(WeiduLog*)),
-          dataManager, SLOT(logFile(WeiduLog*)));
-  connect(controller, SIGNAL(componentList(const QString&, int,
-                                           const QJsonDocument&)),
-          dataManager, SLOT(componentList(const QString&, int,
-                                          const QJsonDocument&)));
-  connect(this, SIGNAL(createModDistArchive(const QString&)),
-          dataManager, SLOT(createModDistArchive(const QString&)));
+  connect(this, &Coordinator::weiduPathSignal,
+          controller, &Controller::setupWeidu);
+  connect(controller, &Controller::weiduFailedValidation,
+          this, &Coordinator::weiduFailedValidation);
+  connect(controller, &Controller::newWeiduManager,
+          this, &Coordinator::newWeiduManager);
+  connect(controller, &Controller::confirmedWeiduPath,
+          dataManager, &DataManager::confirmedWeiduPath);
+  connect(dataManager, &DataManager::storedWeiduPath,
+          this, &Coordinator::weiduPath);
+  connect(this, &Coordinator::restoreStateSignal,
+          dataManager, &DataManager::restoreState);
+  connect(dataManager, &DataManager::processQueues,
+          controller, &Controller::processQueues);
+  connect(dataManager, &DataManager::getLog,
+          controller, &Controller::readLog);
+  connect(controller, &Controller::logFile,
+          dataManager, &DataManager::logFile);
+  connect(controller, &Controller::componentList,
+          dataManager, &DataManager::componentList);
+  connect(this, &Coordinator::createModDistArchive,
+          dataManager, &DataManager::createModDistArchive);
 }
 
 void Coordinator::weiduPath(const QString& path)
@@ -68,10 +66,10 @@ void Coordinator::weiduFailedValidation(const QString& weiduPath)
 
 void Coordinator::newWeiduManager(const WeiduManager* manager)
 {
-  connect(dataManager, SIGNAL(newGamePath(const QString&, bool)),
-          manager, SLOT(newGamePath(const QString&, bool)));
-  connect(dataManager, SIGNAL(eeLang(const QString&)),
-          manager, SLOT(eeLang(const QString&)));
+  connect(dataManager, &DataManager::newGamePath,
+          manager, &WeiduManager::newGamePath);
+  connect(dataManager, &DataManager::eeLang,
+          manager, &WeiduManager::eeLang);
   provideGamePath();
   emit installerAvailable(true);
 }
