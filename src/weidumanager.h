@@ -39,17 +39,14 @@ public:
   void newGamePath(const QString& path, bool eeGame);
   void quack();
   void version();
-
-private slots:
   void processInput(const QString& text);
-  void readProcessOutput();
-
-  /* Slots to queue up tasks */
   void getLanguageList(const QString& tp2);
   void getComponentList(const QString& tp2, int index);
   void install(WeiduLog* modList);
   void uninstall(WeiduLog* modList, WeiduLog* logFile);
 
+private slots:
+  void readProcessOutput();
   /* Not for external use, not even as a slot */
   void endTask(int exitCode, QProcess::ExitStatus exitStatus);
 

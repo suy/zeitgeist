@@ -55,35 +55,26 @@ void Controller::setupWeidu(const QString& weiduPath)
   if (weiduManager->executable()) {
     qDebug() << "File" << weiduPath << "is executable";
     weiduManager->moveToThread(workerThread);
-    connect(weiduManager, SIGNAL(quacks(bool)),
-            this, SLOT(quacks(bool)));
 
-    connect(weiduManager, SIGNAL(versionSignal(int)),
-            this, SLOT(weiduVersion(int)));
-    connect(weiduManager, SIGNAL(languageList(const QStringList&)),
-            this, SIGNAL(languageList(const QStringList&)));
-    connect(this, SIGNAL(weiduListLanguages(const QString&)),
-            weiduManager, SLOT(getLanguageList(const QString&)));
-    connect(this, SIGNAL(weiduListComponents(const QString&, int)),
-            weiduManager, SLOT(getComponentList(const QString&, int)));
-    connect(weiduManager, SIGNAL(componentList(const QString&, int,
-                                               const QJsonDocument&)),
-            this, SIGNAL(componentList(const QString&, int,
-                                       const QJsonDocument&)));
-    connect(this, SIGNAL(weiduInstall(WeiduLog*)),
-            weiduManager, SLOT(install(WeiduLog*)));
-    connect(this, SIGNAL(weiduUninstall(WeiduLog*, WeiduLog*)),
-            weiduManager, SLOT(uninstall(WeiduLog*, WeiduLog*)));
-    connect(weiduManager, SIGNAL(modStackChanged(const QString&)),
-            this, SIGNAL(readLog(const QString&)));
-    connect(weiduManager, SIGNAL(installTaskStarted()),
-            this, SIGNAL(installTaskStarted()));
-    connect(weiduManager, SIGNAL(installTaskEnded()),
-            this, SIGNAL(installTaskEnded()));
-    connect(weiduManager, SIGNAL(processOutput(const QString&)),
-            this, SIGNAL(processOutput(const QString&)));
-    connect(this, SIGNAL(processInput(const QString&)),
-            weiduManager, SLOT(processInput(const QString&)));
+    connect(weiduManager, &WeiduManager::quacks,
+            this, &Controller::quacks);
+    connect(weiduManager, &WeiduManager::versionSignal,
+            this, &Controller::weiduVersion);
+    connect(weiduManager, &WeiduManager::languageList,
+            this, &Controller::languageList);
+    connect(weiduManager, &WeiduManager::componentList,
+            this, &Controller::componentList);
+    connect(weiduManager, &WeiduManager::modStackChanged,
+            this, &Controller::readLog);
+    connect(weiduManager, &WeiduManager::installTaskStarted,
+            this, &Controller::installTaskStarted);
+    connect(weiduManager, &WeiduManager::installTaskEnded,
+            this, &Controller::installTaskEnded);
+    connect(weiduManager, &WeiduManager::processOutput,
+            this, &Controller::processOutput);
+
+    connect(this, &Controller::processInput,
+            weiduManager, &WeiduManager::processInput);
 
     workerThread->start();
     weiduManager->quack();
@@ -131,12 +122,12 @@ void Controller::weiduCheck() const
 
 void Controller::getLanguageList(const QString& tp2)
 {
-  emit weiduListLanguages(tp2);
+  weiduManager->getLanguageList(tp2);
 }
 
 void Controller::getComponentList(const QString& tp2, int index)
 {
-  emit weiduListComponents(tp2, index);
+  weiduManager->getComponentList(tp2, index);
 }
 
 void Controller::processQueues(WeiduLog* install, WeiduLog* uninstall,
@@ -144,9 +135,9 @@ void Controller::processQueues(WeiduLog* install, WeiduLog* uninstall,
 {
   /* WeiduLog objects are intended for WeiduManager */
   if (!uninstall->isEmpty()) {
-    emit weiduUninstall(uninstall, log);
+    weiduManager->uninstall(uninstall, log);
   }
   if (!install->isEmpty()) {
-    emit weiduInstall(install);
+    weiduManager->install(install);
   }
 }
