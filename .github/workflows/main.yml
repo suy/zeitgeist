@@ -47,10 +47,11 @@ jobs:
       - name: Install linuxdeploy
         run: |
           cd src
-          wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
-          wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
+          wget --no-verbose https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+          wget --no-verbose https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
           chmod +x linuxdeploy-x86_64.AppImage
           chmod +x linuxdeploy-plugin-qt-x86_64.AppImage
+          file *AppImage
 
       - name: Create AppImage
         run: |
@@ -93,11 +94,10 @@ jobs:
       - name: Deploy app
         run: |
           ls -l
-          ls -l bin
-          macdeployqt Zeitgeist.app
-          macdeployqt Zeitgeist.app -dmg
-          mv Zeitgeist.app Zeitgesit-${{env.APP_VERSION}}.app
-          mv Zeitgeist.dmg Zeitgesit-${{env.APP_VERSION}}.dmg
+          macdeployqt zeitgeist.app
+          macdeployqt zeitgeist.app -dmg
+          mv zeitgeist.app Zeitgesit-${{env.APP_VERSION}}.app
+          mv zeitgeist.dmg Zeitgesit-${{env.APP_VERSION}}.dmg
 
       - name: Upload DMG
         uses: actions/upload-artifact@v3
