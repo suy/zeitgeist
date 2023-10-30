@@ -7,16 +7,16 @@ CONFIG += c++11
 # maybe add the release option (depending on the defaults of your Qt
 # distribution).
 
-mac {
-    INCLUDEPATH += /usr/local/include/quazip5
-    LIBS += -L/usr/local/lib -lquazip5
-} unix {
-    INCLUDEPATH += /usr/include/quazip5 # Directory with header files
-    LIBS += -L/usr/lib64 -lquazip5 # -L<path/to> -l<library>
-} win32 {
-    INCLUDEPATH += C:\lib\include\quazip # Folder with header files
-    LIBS += -LC:\lib\bin -lquazip # -L<path/to> -l<library>
-}
+# mac {
+#     INCLUDEPATH += /usr/local/include/quazip5
+#     LIBS += -L/usr/local/lib -lquazip5
+# } unix {
+#     INCLUDEPATH += /usr/include/quazip5 # Directory with header files
+#     LIBS += -L/usr/lib64 -lquazip5 # -L<path/to> -l<library>
+# } win32 {
+#     INCLUDEPATH += C:\lib\include\quazip # Folder with header files
+#     LIBS += -LC:\lib\bin -lquazip # -L<path/to> -l<library>
+# }
 
 win32:DESTDIR = bin
 
