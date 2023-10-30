@@ -18,6 +18,8 @@ mac {
     LIBS += -LC:\lib\bin -lquazip # -L<path/to> -l<library>
 }
 
+win32:DESTDIR = bin
+
 # CONFIG(debug, debug|release) {
 # message ("debug build")
 # BUILD_DIR = build/debug

@@ -1,0 +1,157 @@
+on:
+  push:
+    # To limit building on some branches.
+    # branches: [ deploy ]
+  pull_request:
+    branches: [ master ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  APP_VERSION: 0.0.2311
+
+jobs:
+  packaging-linux:
+    strategy:
+      matrix:
+        qt-version:
+          - '5.15.2'
+
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Install newer GCC
+        run: |
+          sudo apt install g++-11
+
+      - name: Install other libraries
+        run: |
+          sudo apt install libxcb-cursor0
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{matrix.qt-version}}
+          cache: true
+
+      - name: Configure and build
+        run: |
+          qmake CONFIG+=release PREFIX=/usr QMAKE_CC=gcc-11 QMAKE_CXX=g++-11
+          make -j2
+
+      - name: Install linuxdeploy
+        run: |
+          cd src
+          wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+          wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
+          chmod +x linuxdeploy-x86_64.AppImage
+          chmod +x linuxdeploy-plugin-qt-x86_64.AppImage
+
+      - name: Create AppImage
+        run: |
+          ./linuxdeploy-x86_64.AppImage --appdir AppDir -e zeitgeist -d src/zeitgeist.desktop -i src/zeitgeist.png --plugin qt --output appimage
+          rm linuxdeploy-*
+          ls *.AppImage
+          mv *.AppImage Zeitgeist-${{env.APP_VERSION}}.AppImage
+
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v3
+        with:
+          name: Zeitgeist-${{env.APP_VERSION}}-Qt-${{matrix.qt-version}}.AppImage
+          path: Zeitgeist-${{env.APP_VERSION}}.AppImage
+          if-no-files-found: error
+
+  packaging-mac:
+    strategy:
+      matrix:
+        qt-version:
+          - '5.15.2'
+    runs-on: macos-11
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{matrix.qt-version}}
+          cache: true
+
+      - name: Build
+        run: |
+          qmake CONFIG+=release
+          make -j3
+
+      - name: Deploy app
+        run: |
+          ls -l
+          ls -l bin
+          macdeployqt Zeitgeist.app
+          macdeployqt Zeitgeist.app -dmg
+          mv Zeitgeist.app Zeitgesit-${{env.APP_VERSION}}.app
+          mv Zeitgeist.dmg Zeitgesit-${{env.APP_VERSION}}.dmg
+
+      - name: Upload DMG
+        uses: actions/upload-artifact@v3
+        with:
+          name: Zeitgesit-${{env.APP_VERSION}}-Qt-${{matrix.qt-version}}.dmg
+          path: Zeitgesit-${{env.APP_VERSION}}.dmg
+          if-no-files-found: error
+
+      - name: Upload app bundle
+        uses: actions/upload-artifact@v3
+        with:
+          name: Zeitgesit-${{env.APP_VERSION}}-Qt-${{matrix.qt-version}}.app
+          path: Zeitgesit-${{env.APP_VERSION}}.app
+          if-no-files-found: error
+
+  packaging-win:
+    strategy:
+      matrix:
+        qt-version:
+          - '5.15.2'
+    runs-on: windows-2022
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: 'Configure MSVC'
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+          spectre: true
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{matrix.qt-version}}
+          cache: true
+
+      - name: Build
+        run: |
+          qmake CONFIG+=release
+          nmake
+
+      - name: Run windeployqt
+        run: |
+          windeployqt bin/zeitgeist.exe
+
+      - name: Upload portable app
+        uses: actions/upload-artifact@v3
+        with:
+          name: Zeitgeist-${{env.APP_VERSION}}-Qt-${{matrix.qt-version}}-portable
+          path: bin
+          if-no-files-found: error
+
+# vim: set et ts=2 sw=2:
