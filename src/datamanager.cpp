@@ -25,7 +25,7 @@
 #include "installedmodsmodel.h"
 #include "queuedmodsmodel.h"
 #include "weidulog.h"
-#include "zip.h"
+//#include "zip.h"
 
 #include <QFileInfo>
 #include <QSettings>
@@ -273,7 +273,9 @@ void DataManager::componentList(const QString& tp2, int,
 void DataManager::createModDistArchive(const QString& targetName)
 {
   archiveModel->finalise();
-  bool success = Zip::write(archiveModel, targetName);
+//  bool success = Zip::write(archiveModel, targetName);
+  Q_UNUSED(targetName);
+  bool success = false;
   if (!success) {
     qDebug() << "Creation of mod dist archive failed";
   }
@@ -285,7 +287,8 @@ void DataManager::importModDistArchive(const QStringList& mods)
   bool overall = true;
   bool any = false;
   foreach (QString mod, mods) {
-    bool success = Zip::extract(mod, currentGame->path);
+//    bool success = Zip::extract(mod, currentGame->path);
+    bool success = false;
     overall = overall && success;
     any = any || success;
     if (!success) {
