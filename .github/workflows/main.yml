@@ -145,6 +145,7 @@ jobs:
 
       - name: Run windeployqt
         run: |
+          cp resources/weidu.exe bin
           windeployqt bin/zeitgeist.exe
 
       - name: Upload portable app
