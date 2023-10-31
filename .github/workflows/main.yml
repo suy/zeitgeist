@@ -46,16 +46,16 @@ jobs:
 
       - name: Install linuxdeploy
         run: |
-          cd src
           wget --no-verbose https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
           wget --no-verbose https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
           chmod +x linuxdeploy-x86_64.AppImage
           chmod +x linuxdeploy-plugin-qt-x86_64.AppImage
-          file *AppImage
 
       - name: Create AppImage
         run: |
-          ./linuxdeploy-x86_64.AppImage --appdir AppDir -e zeitgeist -d src/zeitgeist.desktop -i src/zeitgeist.png --plugin qt --output appimage
+          mkdir packaging
+          mv zeitgeist packaging
+          ./linuxdeploy-x86_64.AppImage --appdir AppDir -e packaging/zeitgeist -d src/zeitgeist.desktop -i src/zeitgeist.png --plugin qt --output appimage
           rm linuxdeploy-*
           ls *.AppImage
           mv *.AppImage Zeitgeist-${{env.APP_VERSION}}.AppImage
