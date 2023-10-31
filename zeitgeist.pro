@@ -34,17 +34,19 @@ QT += core gui widgets
 
 RESOURCES += resources/resources.qrc
 
-QMAKE_CXXFLAGS += \
-    -Wextra \
-    -Werror \
-    -pedantic \
-    -Wold-style-cast \
-    -Wfloat-equal \
-    -Wcast-qual \
-    -Wcast-align \
-    -Wuninitialized \
-    -Winit-self \
-    -Woverloaded-virtual \
+gcc|clang {
+    QMAKE_CXXFLAGS += \
+        -Wextra \
+        -Werror \
+        -pedantic \
+        -Wold-style-cast \
+        -Wfloat-equal \
+        -Wcast-qual \
+        -Wcast-align \
+        -Wuninitialized \
+        -Winit-self \
+        -Woverloaded-virtual \
+}
 
 # DESTDIR = $$BUILD_DIR
 # MOC_DIR = $$BUILD_DIR
