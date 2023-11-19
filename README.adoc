@@ -1,0 +1,17 @@
+= Zeitgeist
+A graphical frontend for WeiDU
+
+Published under the GNU GPL, version 3 or any later version.
+
+== "Unofficial" branch made by suy
+
+This is an "unofficial" branch with a few changes from the original codebase
+from Wisp, who is the main author, and the WeiDU maintainer. The build has
+(temporarily?) stripped any support for ZIP files, and it has improved a few
+internal things, hopefully without regressions.
+
+The main feature is to provide automated builds for Windows, Mac, and Linux,
+however.
+
+Feel free to get them from https://github.com/suy/zeitgeist/actions[the Workflow
+runs on Github], or ask @suy for a build.
