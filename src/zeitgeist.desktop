@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Zeitgeist
+Comment=Infinity Engine mod installer
+Exec=zeitgeist
+Icon=zeitgeist
+Terminal=false
+Categories=Game;Development;
