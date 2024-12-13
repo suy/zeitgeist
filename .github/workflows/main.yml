@@ -17,12 +17,12 @@ jobs:
         qt-version:
           - '5.15.2'
 
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Install newer GCC
         run: |
-          sudo apt install g++-13
+          sudo apt install g++-11
 
       - name: Install other libraries
         run: |
@@ -41,7 +41,7 @@ jobs:
 
       - name: Configure and build
         run: |
-          qmake CONFIG+=release PREFIX=/usr QMAKE_CC=gcc-13 QMAKE_CXX=g++-13
+          qmake CONFIG+=release PREFIX=/usr QMAKE_CC=gcc-11 QMAKE_CXX=g++-11
           make -j2
 
       - name: Install linuxdeploy
