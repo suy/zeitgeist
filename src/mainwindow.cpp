@@ -111,6 +111,9 @@ void MainWindow::createActions()
 
   programModDistAction = new QAction(tr("Create Mod Distribution"), this);
   programModDistAction->setStatusTip(tr("Package a mod in a distributable format"));
+#if !defined(QUAZIP)
+  programModDistAction->setEnabled(false);
+#endif
   connect(programModDistAction, SIGNAL(triggered()),
           this, SLOT(showModDistWindow()));
 
@@ -333,7 +336,11 @@ void MainWindow::gameAvailable(bool haveGot)
   if (haveGot) {
     gameRefreshAction->setEnabled(true);
     gameRefreshAction->setStatusTip(gameRefreshActionEnabled);
+#if defined(QUAZIP)
     gameImportModAction->setEnabled(true);
+#else
+    gameImportModAction->setEnabled(false);
+#endif
     gameImportModAction->setStatusTip(gameImportModActionEnabled);
   } else {
     gameRefreshAction->setEnabled(false);

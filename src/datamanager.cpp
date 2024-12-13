@@ -271,7 +271,12 @@ void DataManager::componentList(const QString& tp2, int,
 void DataManager::createModDistArchive(const QString& targetName)
 {
   archiveModel->finalise();
+#if defined(QUAZIP)
   bool success = Zip::write(archiveModel, targetName);
+#else
+  Q_UNUSED(targetName);
+  bool success = false;
+#endif
   if (!success) {
     qDebug() << "Creation of mod dist archive failed";
   }
@@ -283,7 +288,12 @@ void DataManager::importModDistArchive(const QStringList& mods)
   bool overall = true;
   bool any = false;
   foreach (QString mod, mods) {
+#if defined(QUAZIP)
     bool success = Zip::extract(mod, currentGame->path);
+#else
+  Q_UNUSED(mod);
+  bool success = false;
+#endif
     overall = overall && success;
     any = any || success;
     if (!success) {

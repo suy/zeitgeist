@@ -64,8 +64,10 @@ ModDistWindow::ModDistWindow(QWidget* parent,
   createButton = new QPushButton(tr("Create"), this);
   createButton->setEnabled(false);
   createButton->setToolTip(createButtonDisabled);
+#if QUAZIP
   connect(createButton, SIGNAL(clicked()),
           this, SLOT(selectTargetName()));
+#endif
   connect(this, SIGNAL(createDist(const QString&)),
           coordinator, SIGNAL(createModDistArchive(const QString&)));
   connect(coordinator->dataManager, SIGNAL(createModDistArchiveSuccess(bool)),

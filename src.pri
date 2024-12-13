@@ -27,7 +27,6 @@ HEADERS += \
         src/weiduextractor.h \
         src/weidulog.h \
         src/weidumanager.h \
-        src/zip.h
 
 SOURCES += \
         src/archivemodel.cpp \
@@ -56,4 +55,3 @@ SOURCES += \
         src/weiduextractor.cpp \
         src/weidulog.cpp \
         src/weidumanager.cpp \
-        src/zip.cpp
