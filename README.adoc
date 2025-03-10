@@ -1,0 +1,30 @@
+= Zeitgeist
+
+A graphical frontend for installing WeiDU mods.
+
+Published under the GNU GPL, version 3 or any later version.
+
+== "Unofficial" branch made by suy
+
+This is an "unofficial" branch which just contains additions to the original
+code base, in order to make the application a bit easier to build in all
+platforms, and provide automated builds on Github. This way, users can get
+trustworthy releases of the application (all code is public, and everything is
+reproducible), and developers can (hopefully) improve Zeitgeist with confidence,
+as users can be involved in testing changes.
+
+Feel free to get them from https://github.com/suy/zeitgeist/releases[Releases]
+(preferred), https://github.com/suy/zeitgeist/actions[the Workflow
+runs on Github] (if needing to access the latest changes).
+
+=== Technical details
+
+Support for building the application with https://xmake.io/[Xmake] as build
+system has been added, as this build system is both easy, and supports fetching
+dependencies, and making packages. I'm a beginner with Xmake, so things might
+improve or change over time.
+
+The app is built with Github Actions in Github's servers with the workflow code
+in the repository, so everyone should be able to reproduce the steps if you
+need to make changes, or just want to have some peace of mind that the program
+that you run in your computer is somewhat trustworthy.
