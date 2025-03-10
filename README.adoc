@@ -1,0 +1,45 @@
+= Zeitgeist
+
+A graphical frontend for installing WeiDU mods.
+
+Published under the GNU GPL, version 3 or any later version.
+
+== "Unofficial" branch made by suy
+
+This is an "unofficial" branch which just contains additions to the original
+code base, in order to make the application a bit easier to build in all
+platforms, and provide automated builds on Github. This way, users can get
+trustworthy releases of the application (all code is public, and everything is
+reproducible), and developers can (hopefully) improve Zeitgeist with confidence,
+as users can be involved in testing changes.
+
+Feel free to get them from https://github.com/suy/zeitgeist/releases[Releases]
+(preferred), https://github.com/suy/zeitgeist/actions[the Workflow
+runs on Github] (if needing to access the latest changes).
+
+=== Technical details
+
+Support for building the application with https://xmake.io/[Xmake] as build
+system has been added, with the old qmake code left intact. Xmake lacks good IDE
+integration so far, but it is easy to use, and supports fetching third party
+dependencies, and making packages, which makes it ideal for building the app in
+a remote server in the different platforms with ease. I'm a beginner with Xmake,
+so I expect the build might improve or change over time.
+
+The app is built with Github Actions in Github's servers with the workflow code
+in the repository, so everyone should be able to reproduce the steps if you
+need to make changes, or just want to have some peace of mind that the program
+that you run in your computer is somewhat trustworthy.
+
+=== Building the application
+
+With Qt 5::
+* `xmake config -y --qt=/path/to/qt5`
+* `xmake`
+With Qt 6::
+* `xmake config -y --qt=/path/to/qt6 --qt6=1`
+* `xmake`
+
+The `-y` ("yes") flag is optional, and if you don't pass it, it will ask you in
+a console prompt to build the QuaZip library (which is necessary to build the
+app anyway).

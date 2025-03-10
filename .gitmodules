@@ -1,0 +1,4 @@
+[submodule "3rdparty/quazip"]
+	path = 3rdparty/quazip
+	url = https://github.com/stachenov/quazip
+	branch = 1.0
