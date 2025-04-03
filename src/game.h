@@ -8,7 +8,6 @@ class Mod;
 class WeiduLog;
 
 class QString;
-class QStringList;
 
 class Game : public QObject
 {

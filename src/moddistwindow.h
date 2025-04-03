@@ -10,7 +10,6 @@ class QLineEdit;
 class QListView;
 class QPushButton;
 class QString;
-class QStringList;
 class QStringListModel;
 
 class ModDistWindow : public QWidget

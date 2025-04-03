@@ -5,7 +5,6 @@
 
 class QByteArray;
 class QJsonDocument;
-class QStringList;
 
 class WeiduExtractor : public QObject
 {
