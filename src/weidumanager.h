@@ -3,6 +3,7 @@
 
 #include "weidulog.h"
 
+#include <QMutexLocker>
 #include <QObject>
 #include <QPair>
 #include <QProcess>
@@ -14,7 +15,6 @@ class StackManager;
 class QByteArray;
 class QJsonDocument;
 class QMutex;
-class QMutexLocker;
 class QProcess;
 class QString;
 
@@ -91,7 +91,11 @@ private:
 
   const QString weiduPath;
   QMutex* weiduLog;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   QMutexLocker* weiduLogLocker;
+#else
+  QMutexLocker<QMutex>* weiduLogLocker;
+#endif
   QString gamePath;
   bool eeGame = false;
   QString eeLangDir = "en_us";

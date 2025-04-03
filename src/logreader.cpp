@@ -25,7 +25,11 @@
 #include <QFile>
 #include <QIODevice>
 #include <QMutexLocker>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QRegExp>
+#else
+#include <QRegularExpression>
+#endif
 #include <QTextStream>
 
 LogReader::LogReader(QMutex* weiduLog) :
@@ -92,6 +96,7 @@ bool LogReader::validLine(const QString& line)
   if (line.isEmpty()) {
     return false;
   }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   QRegExp isComment("^[ \t]*//.*");
   QRegExp pattern("^~.+~ #[0-9]+ #[0-9]+.*");
   if (isComment.exactMatch(line)) {
@@ -100,6 +105,16 @@ bool LogReader::validLine(const QString& line)
   if (pattern.exactMatch(line)) {
     return true;
   }
+#else
+  QRegularExpression isComment("^[ \t]*//.*");
+  QRegularExpression pattern("^~.+~ #[0-9]+ #[0-9]+.*");
+  if (isComment.match(line).hasMatch()) {
+    return false;
+  }
+  if (pattern.match(line).hasMatch()) {
+    return true;
+  }
+#endif
   return false;
 }
 

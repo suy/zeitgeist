@@ -139,7 +139,11 @@ void WeiduManager::doTask()
 void WeiduManager::startTask(const QStringList& arguments)
 {
   readBuffer.resize(0);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   weiduLogLocker = new QMutexLocker(weiduLog);
+#else
+  weiduLogLocker = new QMutexLocker<QMutex>(weiduLog);
+#endif
   process->start(weiduPath, arguments);
   bool started = process->waitForStarted();
   if (!started) {
