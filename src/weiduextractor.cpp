@@ -24,7 +24,11 @@
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonParseError>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QRegExp>
+#else
+#include <QRegularExpression>
+#endif
 #include <QString>
 #include <QStringList>
 
@@ -42,10 +46,18 @@ QStringList WeiduExtractor::languageList(const QByteArray& message)
   QStringList raw = QString(message).split("\n");
   QStringList list;
   while (!raw.isEmpty()) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QRegExp regexp("^[0-9]+:(.+)$");
     if (regexp.exactMatch(raw.takeFirst())) {
       list.append(regexp.capturedTexts()[1]);
     }
+#else
+    QRegularExpression regexp("^[0-9]+:(.+)$");
+    QRegularExpressionMatch match = regexp.match(raw.takeFirst());
+    if (match.hasMatch()) {
+      list.append(match.captured(1));
+    }
+#endif
   }
   qDebug() << "Languages obtained were" << list;
   return list;

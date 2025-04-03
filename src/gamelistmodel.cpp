@@ -24,7 +24,11 @@
 #include <QDirIterator>
 #include <QDir>
 #include <QFileInfo>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QRegExp>
+#else
+#include <QRegularExpression>
+#endif
 #include <QStandardItem>
 #include <QString>
 #include <QStringList>
@@ -319,11 +323,19 @@ QStringList GameListModel::langDirs(const QString& gamePath) const
   QStringList result;
   if (QDir(gamePath).exists("lang")) {
     QDirIterator iterator(gamePath + "/lang", QDir::AllDirs);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QRegExp langPattern("^[a-zA-Z]{2,2}_[a-zA-Z]{2,2}$");
+#else
+    QRegularExpression langPattern("^[a-zA-Z]{2}_[a-zA-Z]{2}$");
+#endif
     while (iterator.hasNext()) {
       iterator.next();
       QString dirName = iterator.fileName();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
       if (langPattern.exactMatch(dirName)) {
+#else
+      if (langPattern.match(dirName).hasMatch()) {
+#endif
         result << dirName;
       }
     }
