@@ -17,7 +17,6 @@ class QMutex;
 class QMutexLocker;
 class QProcess;
 class QString;
-class QStringList;
 
 enum class Task {
   VERSION,

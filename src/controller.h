@@ -10,7 +10,6 @@ class WeiduManager;
 
 class QJsonDocument;
 class QString;
-class QStringList;
 
 class Controller : public QObject
 {

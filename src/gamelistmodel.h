@@ -7,7 +7,6 @@
 class QModelIndex;
 class QObject;
 class QString;
-class QStringList;
 class QVariant;
 
 enum class GameType {
