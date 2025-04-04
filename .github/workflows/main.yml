@@ -37,7 +37,7 @@ jobs:
 
       - name: Configure and build
         run: |
-          xmake config -y --qt=${QT_ROOT_DIR}
+          xmake config -y --qt=${QT_ROOT_DIR} --qt6=1
           xmake -y -v
 
       - name: Install linuxdeploy
@@ -90,7 +90,7 @@ jobs:
 
       - name: Build
         run: |
-          xmake config -y --qt=${QT_ROOT_DIR}
+          xmake config -y --qt=${QT_ROOT_DIR} --qt6=1
           xmake -y -v
 
       - name: Deploy app
@@ -148,7 +148,7 @@ jobs:
 
       - name: Build
         run: |
-          xmake config -y --qt=${QT_ROOT_DIR}
+          xmake config -y --qt=${QT_ROOT_DIR} --qt6=1
           xmake -y -v
 
 
