@@ -33,7 +33,7 @@ jobs:
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{matrix.qt-version}}
-          modules: 'qtcore qtgui qtwidgets qt5compat'
+          modules: 'qt5compat'
           cache: true
 
       - name: Configure and build
@@ -87,7 +87,7 @@ jobs:
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{matrix.qt-version}}
-          modules: 'qtcore qtgui qtwidgets qt5compat'
+          modules: 'qt5compat'
           cache: true
 
       - name: Build
@@ -146,7 +146,7 @@ jobs:
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{matrix.qt-version}}
-          modules: 'qtcore qtgui qtwidgets qt5compat'
+          modules: 'qt5compat'
           cache: true
 
       - name: Build
