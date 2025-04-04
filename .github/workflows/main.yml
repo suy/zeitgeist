@@ -97,12 +97,9 @@ jobs:
 
       - name: Deploy app
         run: |
-          ls -l
-          find build
-          macdeployqt zeitgeist.app
-          macdeployqt zeitgeist.app -dmg
-          mv zeitgeist.app Zeitgeist-${{env.APP_VERSION}}.app
-          mv zeitgeist.dmg Zeitgeist-${{env.APP_VERSION}}.dmg
+          macdeployqt build/macosx/arm64/release/zeitgeist.app -dmg
+          mv build/macosx/arm64/release/zeitgeist.app Zeitgeist-${{env.APP_VERSION}}.app
+          mv build/macosx/arm64/release/zeitgeist.dmg Zeitgeist-${{env.APP_VERSION}}.dmg
 
       - name: Upload DMG
         uses: actions/upload-artifact@v4
