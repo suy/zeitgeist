@@ -33,6 +33,7 @@ jobs:
         uses: jurplel/install-qt-action@v4
         with:
           version: ${{matrix.qt-version}}
+          modules: 'qtcore qtgui qtwidgets qt5compat'
           cache: true
 
       - name: Configure and build
@@ -83,9 +84,10 @@ jobs:
           xmake-version: latest
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
           version: ${{matrix.qt-version}}
+          modules: 'qtcore qtgui qtwidgets qt5compat'
           cache: true
 
       - name: Build
@@ -141,9 +143,10 @@ jobs:
           xmake-version: latest
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v3
+        uses: jurplel/install-qt-action@v4
         with:
           version: ${{matrix.qt-version}}
+          modules: 'qtcore qtgui qtwidgets qt5compat'
           cache: true
 
       - name: Build
