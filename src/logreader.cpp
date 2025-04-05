@@ -25,7 +25,7 @@
 #include <QFile>
 #include <QIODevice>
 #include <QMutexLocker>
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#if 1 || QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QRegExp>
 #else
 #include <QRegularExpression>
@@ -96,7 +96,7 @@ bool LogReader::validLine(const QString& line)
   if (line.isEmpty()) {
     return false;
   }
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#if 1 || QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
   QRegExp isComment("^[ \t]*//.*");
   QRegExp pattern("^~.+~ #[0-9]+ #[0-9]+.*");
   if (isComment.exactMatch(line)) {
